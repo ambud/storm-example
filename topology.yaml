@@ -1,0 +1,21 @@
+name: "SmokeTestTopology"
+
+config:
+    topology.workers: 1
+
+spouts:
+  - id: "timestampSpout"
+    className: "io.github.ambud.storm.example.SimpleSpout"
+    parallelism: 1
+
+bolts:
+  - id: "printerBolt"
+    className: "io.github.ambud.storm.example.SimpleBolt"
+    parallelism: 1
+
+streams:
+  - name: "Timestamp->Printer"
+    from: "timestampSpout"
+    to: "printerBolt"
+    grouping:
+      type: SHUFFLE
